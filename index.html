@@ -45,6 +45,15 @@
             color: #333;
         }
 
+        .question-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 16px auto;
+            border-radius: 8px;
+        }
+
+
         .options-container {
             display: flex;
             flex-direction: column;
@@ -160,29 +169,49 @@
 const questions = [
   {
     id: 1,
-    question: "In Python socket programming, SOCK_STREAM refers to a type of:",
-    options: ["SocketFamily", "SocketType", "SocketName", "SocketProtocol"],
+    question: "In Python socket programming, while defining a socket, SOCK_STREAM refers to a type of",
+    options: [
+      "SocketFamily",
+      "SocketType",
+      "SocketName",
+      "SocketProtocol"
+    ],
     correctAnswer: 1,
-    explanation: "SOCK_STREAM is a SocketType used for TCP sockets. Lecture 31@6:27."
+    explanation: "SOCK_STREAM refers to a type of SocketType, i.e either TCP socket or UDP socket. Refer Lecture 31@6:27"
   },
   {
     id: 2,
-    question: "Which function changes the Y-axis label in matplotlib?",
-    options: ["plt.show()", "plt.plot()", "plt.ylabel()", "plt.yaxis()"],
+    question: "If you want to change the label of the Y-axis while plotting a graph using matplotlib in Python, what among the following functions do you use? Suppose you have imported matplotlib as plt",
+    options: [
+      "plt.show()",
+      "plt.plot()",
+      "plt.ylabel()",
+      "plt.yaxis()"
+    ],
     correctAnswer: 2,
-    explanation: "plt.ylabel() changes the Y-axis label. Lecture 32@12:39."
+    explanation: "Correct Answer: plt.ylabel(). Refer Lecture 32@12:39."
   },
   {
     id: 3,
-    question: "In socket programming, AF_INET stands for:",
-    options: ["Unix protocols", "Internet Protocol (IP)", "File sharing", "Time slicing"],
+    question: "In Socket programming, the parameter AF_INET stands for ___________.",
+    options: [
+      "Unix protocols",
+      "Internet Protocol (IP)",
+      "File sharing",
+      "Time slicing"
+    ],
     correctAnswer: 1,
-    explanation: "AF_INET indicates an IP-based socket. Lecture 31@14:13."
+    explanation: "AF_INET specifies Internet protocol. Refer Lecture 31@14:13."
   },
   {
     id: 4,
-    question: "What type of socket uses sock.recvfrom(1024)?",
-    options: ["TCP socket", "UDP socket", "TAP socket", "None of the given"],
+    question: "Suppose a Python server is receiving data from a socket as follows,\ndata, addr = sock.recvfrom(1024)\nWhat kind of socket ‘sock’ is being considered here.",
+    options: [
+      "TCP socket",
+      "UDP socket",
+      "TAP socket",
+      "None of the given"
+    ],
     correctAnswer: 1,
     explanation: "recvfrom() is used for UDP sockets."
   },
@@ -196,11 +225,11 @@ const questions = [
       "Enabling traditional BGP"
     ],
     correctAnswer: 1,
-    explanation: "Mobi-Flow enables mobility in SDN. Lecture 34@14:41."
+    explanation: "Mobi-Flow helps SDN support mobility. Lecture 34@14:41."
   },
   {
     id: 6,
-    question: "What does the listen() function in socket programming do?",
+    question: "During remote server access using socket programming what is the utility of the <socket_name>.listen() function?",
     options: [
       "To create a new socket",
       "To bind the socket to connection",
@@ -208,11 +237,11 @@ const questions = [
       "To close the connection"
     ],
     correctAnswer: 2,
-    explanation: "listen() waits for client connections. Lecture 31, ppt 13."
+    explanation: "listen() waits for incoming connections. Lecture 31 ppt no 13."
   },
   {
     id: 7,
-    question: "What is the direction of PACKET_OUT messages in SDN?",
+    question: "Which among the following is the correct direction for PACKET_OUT type messages in SDN?",
     options: [
       "From controller to switch",
       "From switch to controller",
@@ -220,11 +249,11 @@ const questions = [
       "Between two controllers"
     ],
     correctAnswer: 0,
-    explanation: "PACKET_OUT is from controller to switch. Lecture 33, ppt 20."
+    explanation: "PACKET_OUT: controller → switch. Lecture 33 ppt no 20."
   },
   {
     id: 8,
-    question: "What is a limitation of traditional non-SDN networks?",
+    question: "Which among the following is a limitation of the traditional non-SDN networks?",
     options: [
       "Switches do not possess routing table",
       "Switches are unable to forward traffic",
@@ -232,11 +261,11 @@ const questions = [
       "All of the given"
     ],
     correctAnswer: 2,
-    explanation: "Traditional networks lack global network view. Lecture 33@6:53."
+    explanation: "Traditional networks lack global view. Lecture 33@6:53."
   },
   {
     id: 9,
-    question: "During remote access by Raspberry Pi, what is needed?",
+    question: "During remote server access by a Raspberry Pi, where the Raspberry Pi acts as a client, the client needs the following?",
     options: [
       "Only IP address of server",
       "Only port number",
@@ -244,11 +273,11 @@ const questions = [
       "Client’s IP address"
     ],
     correctAnswer: 2,
-    explanation: "Client requires both server IP and port. Lecture 31@14:13."
+    explanation: "Client needs both IP and port. Lecture 31@14:13."
   },
   {
     id: 10,
-    question: "Which is true about soft and hard time-outs in SDN?",
+    question: "With respect to the concept of soft time-out and hard time-out in SDN switches, which of the following relations hold?",
     options: [
       "Soft time-out >= hard time-out",
       "Hard time-out >= soft time-out",
@@ -256,23 +285,24 @@ const questions = [
       "None of the given"
     ],
     correctAnswer: 1,
-    explanation: "Hard time-out is always ≥ soft time-out. Lecture 33, OpenFlow III."
+    explanation: "Hard time-out is always ≥ soft time-out. OpenFlow Protocol III."
   },
   {
     id: 11,
-    question: "Which is true about tables in networks?",
+    question: "Which of the following is true?",
     options: [
-      "Traditional: Routing Table, SDN: Routing Table",
-      "Traditional: Flow Table, SDN: Routing Table",
-      "Traditional: Routing Table, SDN: Flow Table",
-      "Traditional: Flow Table, SDN: Flow Table"
+      "Traditional Network: Routing Table, Software Defined Network: Routing Table",
+      "Traditional Network: Flow Table, Software Defined Network: Routing Table",
+      "Traditional Network: Routing Table, Software Defined Network: Flow Table",
+      "Traditional Network: Flow Table, Software Defined Network: Flow Table"
     ],
     correctAnswer: 2,
     explanation: "Traditional uses routing tables, SDN uses flow tables. Lecture 33@17:15."
   },
   {
     id: 12,
-    question: "The given figure showing SDN switch flow rules relates to:",
+    question: "Consider the following figure below. To which issue of SDN does this particular figure can be related to?",
+    image: "https://github.com/FakeNobita/IOTWEEK7/blob/main/Images/week7q12.png?raw=true",
     options: [
       "Controller placement issue",
       "Flow Rule placement issue",
@@ -280,40 +310,50 @@ const questions = [
       "Analysis placement issue"
     ],
     correctAnswer: 1,
-    explanation: "It shows a flow rule placement issue. Lecture 33@18:54."
+    explanation: "It pertains to flow rule placement. Lecture 33@18:54."
   },
   {
     id: 13,
-    question: "What do East-Westbound APIs do in SDN?",
+    question: "With respect to the directional APIs in SDN, what is the functionality of East-Westbound APIs?",
     options: [
-      "Communicate with switches",
-      "Communicate among controllers",
-      "Do not exist",
-      "Communicate between switches"
+      "To communicate between the controller and switches",
+      "To communicate among multiple controllers",
+      "East-Westbound APIs do not exist",
+      "To communicate between switches themselves."
     ],
     correctAnswer: 1,
-    explanation: "East-Westbound APIs enable inter-controller communication. Lecture 34@2:10."
+    explanation: "East-Westbound APIs enable controller-to-controller communication. Lecture 34@2:10."
   },
   {
     id: 14,
-    question: "Hierarchical SDN architecture is also known as:",
-    options: ["Tree", "Flat", "Mesh", "Line"],
+    question: "Hierarchical SDN architecture is also known as __________ architecture.",
+    options: [
+      "Tree",
+      "Flat",
+      "Mesh",
+      "Line"
+    ],
     correctAnswer: 0,
-    explanation: "Hierarchical SDN is referred to as Tree architecture. Lecture 34@6:12."
+    explanation: "Hierarchical SDN architecture is tree-based. Lecture 34@6:12."
   },
   {
     id: 15,
-    question: "Integrating SDN with IoT is not recommended.",
-    options: ["False", "True"],
+    question: "Integrating SDN with IoT is not recommended and is not a suitable approach to follow",
+    options: [
+      "False",
+      "True"
+    ],
     correctAnswer: 0,
-    explanation: "SDN-IoT integration is beneficial. Lecture 35."
+    explanation: "SDN + IoT integration is recommended. Lecture 35."
   }
 ];
 
 
 
 
-        let selectedAnswers = {};
+
+
+let selectedAnswers = {};
         let submitted = false;
 
         function createQuiz() {
@@ -325,6 +365,7 @@ const questions = [
                 
                 questionCard.innerHTML = `
                     <div class="question-text">Q${question.id}. ${question.question}</div>
+                    ${question.image ? `<img src="${question.image}" alt="Image for question ${question.id}" class="question-image">` : ''}
                     <div class="options-container">
                         ${question.options.map((option, index) => `
                             <label class="option" data-question="${question.id}" data-option="${index}">
@@ -341,6 +382,7 @@ const questions = [
                         <div class="explanation">${question.explanation}</div>
                     </div>
                 `;
+
                 
                 quizContainer.appendChild(questionCard);
             });
