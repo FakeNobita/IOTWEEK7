@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IOT NPTEL WEEK-7</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e5e5e5;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background-color: #f8f8f8;
+        }
+
+        .option.selected {
+            border-color: #3b82f6;
+        }
+
+        .option.correct {
+            background-color: #ecfdf5;
+        }
+
+        .option.wrong {
+            background-color: #fef2f2;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+        }
+
+        .feedback {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e5e5;
+            display: none;
+        }
+
+        .feedback.visible {
+            display: block;
+        }
+
+        .result-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .result-icon.correct {
+            color: #059669;
+        }
+
+        .result-icon.wrong {
+            color: #dc2626;
+        }
+
+        .explanation {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+        }
+
+        .score {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: #2563eb;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IOT NPTEL WEEK-7</h1>
+        <div id="quiz-container"></div>
+        <div class="controls">
+            <div id="score" class="score"></div>
+            <button id="submit-btn" class="button">Submit Answers</button>
+        </div>
+    </div>
+
+    <script>
+const questions = [
+  {
+    id: 1,
+    question: "In Python socket programming, SOCK_STREAM refers to a type of:",
+    options: ["SocketFamily", "SocketType", "SocketName", "SocketProtocol"],
+    correctAnswer: 1,
+    explanation: "SOCK_STREAM is a SocketType used for TCP sockets. Lecture 31@6:27."
+  },
+  {
+    id: 2,
+    question: "Which function changes the Y-axis label in matplotlib?",
+    options: ["plt.show()", "plt.plot()", "plt.ylabel()", "plt.yaxis()"],
+    correctAnswer: 2,
+    explanation: "plt.ylabel() changes the Y-axis label. Lecture 32@12:39."
+  },
+  {
+    id: 3,
+    question: "In socket programming, AF_INET stands for:",
+    options: ["Unix protocols", "Internet Protocol (IP)", "File sharing", "Time slicing"],
+    correctAnswer: 1,
+    explanation: "AF_INET indicates an IP-based socket. Lecture 31@14:13."
+  },
+  {
+    id: 4,
+    question: "What type of socket uses sock.recvfrom(1024)?",
+    options: ["TCP socket", "UDP socket", "TAP socket", "None of the given"],
+    correctAnswer: 1,
+    explanation: "recvfrom() is used for UDP sockets."
+  },
+  {
+    id: 5,
+    question: "What is the use of the Mobi-Flow protocol?",
+    options: [
+      "Enabling static SDN",
+      "Enabling SDN to incorporate mobility",
+      "Enabling Odin Master",
+      "Enabling traditional BGP"
+    ],
+    correctAnswer: 1,
+    explanation: "Mobi-Flow enables mobility in SDN. Lecture 34@14:41."
+  },
+  {
+    id: 6,
+    question: "What does the listen() function in socket programming do?",
+    options: [
+      "To create a new socket",
+      "To bind the socket to connection",
+      "To wait for clients to connect",
+      "To close the connection"
+    ],
+    correctAnswer: 2,
+    explanation: "listen() waits for client connections. Lecture 31, ppt 13."
+  },
+  {
+    id: 7,
+    question: "What is the direction of PACKET_OUT messages in SDN?",
+    options: [
+      "From controller to switch",
+      "From switch to controller",
+      "Between two switches",
+      "Between two controllers"
+    ],
+    correctAnswer: 0,
+    explanation: "PACKET_OUT is from controller to switch. Lecture 33, ppt 20."
+  },
+  {
+    id: 8,
+    question: "What is a limitation of traditional non-SDN networks?",
+    options: [
+      "Switches do not possess routing table",
+      "Switches are unable to forward traffic",
+      "Switches do not have a global view of the network.",
+      "All of the given"
+    ],
+    correctAnswer: 2,
+    explanation: "Traditional networks lack global network view. Lecture 33@6:53."
+  },
+  {
+    id: 9,
+    question: "During remote access by Raspberry Pi, what is needed?",
+    options: [
+      "Only IP address of server",
+      "Only port number",
+      "Both server IP address and port number",
+      "Client’s IP address"
+    ],
+    correctAnswer: 2,
+    explanation: "Client requires both server IP and port. Lecture 31@14:13."
+  },
+  {
+    id: 10,
+    question: "Which is true about soft and hard time-outs in SDN?",
+    options: [
+      "Soft time-out >= hard time-out",
+      "Hard time-out >= soft time-out",
+      "Soft time-out = hard time-out always",
+      "None of the given"
+    ],
+    correctAnswer: 1,
+    explanation: "Hard time-out is always ≥ soft time-out. Lecture 33, OpenFlow III."
+  },
+  {
+    id: 11,
+    question: "Which is true about tables in networks?",
+    options: [
+      "Traditional: Routing Table, SDN: Routing Table",
+      "Traditional: Flow Table, SDN: Routing Table",
+      "Traditional: Routing Table, SDN: Flow Table",
+      "Traditional: Flow Table, SDN: Flow Table"
+    ],
+    correctAnswer: 2,
+    explanation: "Traditional uses routing tables, SDN uses flow tables. Lecture 33@17:15."
+  },
+  {
+    id: 12,
+    question: "The given figure showing SDN switch flow rules relates to:",
+    options: [
+      "Controller placement issue",
+      "Flow Rule placement issue",
+      "Hardware placement issue",
+      "Analysis placement issue"
+    ],
+    correctAnswer: 1,
+    explanation: "It shows a flow rule placement issue. Lecture 33@18:54."
+  },
+  {
+    id: 13,
+    question: "What do East-Westbound APIs do in SDN?",
+    options: [
+      "Communicate with switches",
+      "Communicate among controllers",
+      "Do not exist",
+      "Communicate between switches"
+    ],
+    correctAnswer: 1,
+    explanation: "East-Westbound APIs enable inter-controller communication. Lecture 34@2:10."
+  },
+  {
+    id: 14,
+    question: "Hierarchical SDN architecture is also known as:",
+    options: ["Tree", "Flat", "Mesh", "Line"],
+    correctAnswer: 0,
+    explanation: "Hierarchical SDN is referred to as Tree architecture. Lecture 34@6:12."
+  },
+  {
+    id: 15,
+    question: "Integrating SDN with IoT is not recommended.",
+    options: ["False", "True"],
+    correctAnswer: 0,
+    explanation: "SDN-IoT integration is beneficial. Lecture 35."
+  }
+];
+
+
+
+
+        let selectedAnswers = {};
+        let submitted = false;
+
+        function createQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            
+            questions.forEach(question => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                questionCard.innerHTML = `
+                    <div class="question-text">Q${question.id}. ${question.question}</div>
+                    <div class="options-container">
+                        ${question.options.map((option, index) => `
+                            <label class="option" data-question="${question.id}" data-option="${index}">
+                                <input type="radio" name="question${question.id}" value="${index}">
+                                ${option}
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${question.id}">
+                        <div class="result-icon">
+                            <span class="icon"></span>
+                            <span class="result-text"></span>
+                        </div>
+                        <div class="explanation">${question.explanation}</div>
+                    </div>
+                `;
+                
+                quizContainer.appendChild(questionCard);
+            });
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleOptionSelect);
+            });
+
+            document.getElementById('submit-btn').addEventListener('click', handleSubmit);
+        }
+
+        function handleOptionSelect(event) {
+            if (submitted) return;
+
+            const questionId = parseInt(event.currentTarget.dataset.question);
+            const optionIndex = parseInt(event.currentTarget.dataset.option);
+
+            selectedAnswers[questionId] = optionIndex;
+
+            const questionOptions = document.querySelectorAll(`.option[data-question="${questionId}"]`);
+            questionOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            const radioButton = event.currentTarget.querySelector('input[type="radio"]');
+            radioButton.checked = true;
+        }
+
+        function handleSubmit() {
+            if (Object.keys(selectedAnswers).length < questions.length) {
+                alert("Please answer all questions before submitting!");
+                return;
+            }
+
+            submitted = true;
+            let score = 0;
+
+            questions.forEach(question => {
+                const isCorrect = selectedAnswers[question.id] === question.correctAnswer;
+                if (isCorrect) score++;
+
+                const feedback = document.getElementById(`feedback-${question.id}`);
+                feedback.classList.add('visible');
+
+                const resultIcon = feedback.querySelector('.result-icon');
+                const resultText = feedback.querySelector('.result-text');
+                
+                if (isCorrect) {
+                    resultIcon.classList.add('correct');
+                    resultText.textContent = 'Correct Answer +1';
+                } else {
+                    resultIcon.classList.add('wrong');
+                    resultText.textContent = 'Wrong Answer +0';
+                }
+
+                const options = document.querySelectorAll(`.option[data-question="${question.id}"]`);
+                options.forEach((option, index) => {
+                    if (index === question.correctAnswer) {
+                        option.classList.add('correct');
+                    } else if (index === selectedAnswers[question.id]) {
+                        option.classList.add('wrong');
+                    }
+                });
+            });
+
+            document.getElementById('score').textContent = `Score: ${score}/${questions.length}`;
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.textContent = 'Try Again';
+            submitBtn.removeEventListener('click', handleSubmit);
+            submitBtn.addEventListener('click', resetQuiz);
+        }
+
+        function resetQuiz() {
+            location.reload();
+        }
+
+        createQuiz();
+    </script>
+</body>
+</html>
